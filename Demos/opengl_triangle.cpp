@@ -1,5 +1,6 @@
 #include <iostream>
 #include <stdlib.h>
+#include <math.h>
 
 #ifdef __APPLE__
 #include <OpenGL/OpenGL.h>
@@ -39,24 +40,41 @@ void drawScene() {
     
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-
-    glTranslatef(0.0f, 0.0f, -7.0f);
+    glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
+    // glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
+    glTranslatef(0.0f, 0.0f, -8.0f);
     glScalef(3.0, 3.0, 0.0);
 
     glPushMatrix();
     
     glBegin(GL_TRIANGLES);
+
+
+        float width = 1.0f;
+        float height = sqrt(width*width - (0.5 * width)*(0.5 * width));
         
-        
+        glColor3f(0.0f, 0.0f, 1.0f); //blue
+        glVertex3f(-2.0f, 0.0f, 0.0f); //bottom left
+        glColor3f(0.0f, 1.0f, 0.0f); //green
+        glVertex3f(-1.0f, 0.0f, 0.0f); //bottom right
+        glColor3f(1.0f, 0.0f, 0.0f); //red
+        glVertex3f(-1.5f, height, 0.0f); //top
         
         //Triangle
-        glColor3f(0.0f, 0.0f, 1.0f);
-        glVertex3f(-0.5f, -0.5f, 0.0f);
-        glColor3f(0.0f, 1.0f, 0.0f);
-        glVertex3f(0.5f, -0.5f, 0.0f);
-        glColor3f(1.0f, 0.0f, 0.0f);
-        glVertex3f(0.0f, 0.5f, 0.0f);
+        glColor3f(0.0f, 0.0f, 1.0f); //blue
+        glVertex3f(-0.9f, 0.0f, 0.0f); //bottom left
+        glColor3f(0.0f, 1.0f, 0.0f); //green
+        glVertex3f(0.1f, 0.0f, 0.0f); //bottom right
+        glColor3f(1.0f, 0.0f, 0.0f); //red
+        glVertex3f(-0.4f, -cos(60), 0.0f); //top
+        // glVertex3f(1.0f, 1.0f, 0.0f);
 
+        glColor3f(0.0f, 0.0f, 1.0f); //blue
+        glVertex3f(0.2f, 0.0f, 0.0f); //bottom left
+        glColor3f(0.0f, 1.0f, 0.0f); //green
+        glVertex3f(1.2f, 0.0f, 0.0f); //bottom right
+        glColor3f(1.0f, 0.0f, 0.0f); //red
+        glVertex3f(0.7f, 1.0, 0.0f); //top
 
     
     glEnd();
@@ -89,7 +107,7 @@ int main(int argc, char** argv) {
     
     //Set handler functions
     glutDisplayFunc(drawScene);
-    // glutKeyboardFunc(handleKeypress);
+    glutKeyboardFunc(handleKeypress);
     glutReshapeFunc(handleResize);
     
     // glutTimerFunc(25, update, 0); //Add a timer
