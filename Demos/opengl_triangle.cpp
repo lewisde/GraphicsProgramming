@@ -11,33 +11,9 @@
 #endif
 
 #define PI 3.14159265
+int RenderMode = 0;
 
 using namespace std;
-
-void handleKeypress(unsigned char key, int x, int y) {
-    switch (key) {
-        case 27: //Escape key
-            exit(0);
-        default:
-            std::cout << key << std::endl;
-    }
-}
-
-
-void initRendering() {
-    glEnable(GL_DEPTH_TEST);
-    glEnable(GL_COLOR_MATERIAL); 
-}
-
-void handleResize(int w, int h) {
-    glViewport(0, 0, w, h);
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    gluPerspective(45.0, (double)w / (double)h, 1.0, 200.0);
-}
-
-float _angle = 60.0f;
-float _cameraAngle = 30.0f;
 
 //Draws the 3D scene
 void drawScene() {
@@ -45,8 +21,12 @@ void drawScene() {
     
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-    glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
-    // glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
+    if(RenderMode == 0)
+        glPolygonMode( GL_FRONT_AND_BACK, GL_POINT );
+    if(RenderMode == 1)
+        glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
+    if(RenderMode == 2)
+        glPolygonMode( GL_FRONT_AND_BACK, GL_FILL);
     glTranslatef(0.0f, 0.0f, -8.0f);
     glScalef(2.0, 2.0, 0.0);
 
@@ -54,27 +34,27 @@ void drawScene() {
     
     glBegin(GL_TRIANGLES);
 
-	    // std::clock_t start;
-	    // double duration;
+        // std::clock_t start;
+        // double duration;
 
-	    // start = std::clock();
+        // start = std::clock();
 
-	    /* Your algorithm here */
-	    float a1 = sqrt(1 - 0.25);
+        /* Your algorithm here */
+        float a1 = sqrt(1 - 0.25);
 
-	    // duration = ( std::clock() - start ) / (double) CLOCKS_PER_SEC;
+        // duration = ( std::clock() - start ) / (double) CLOCKS_PER_SEC;
 
-	    // std::cout<<"time for sqrt "<< duration <<'\n';
+        // std::cout<<"time for sqrt "<< duration <<'\n';
 
-    	
-	    // start = std::clock();
+        
+        // start = std::clock();
 
-	    /* Your algorithm here */
-    	float a2 = sin(60*(PI/180.0));
+        /* Your algorithm here */
+        float a2 = sin(60*(PI/180.0));
 
-	    // duration = ( std::clock() - start ) / (double) CLOCKS_PER_SEC;
+        // duration = ( std::clock() - start ) / (double) CLOCKS_PER_SEC;
 
-	    // std::cout<<"time for sin "<< duration <<'\n';
+        // std::cout<<"time for sin "<< duration <<'\n';
 
 
         glColor3f(0.0f, 0.0f, 1.0f); //blue
@@ -100,8 +80,8 @@ void drawScene() {
         glColor3f(1.0f, 0.0f, 0.0f); //red
         glVertex3f(0.0f, 1.0, 0.0f); //top
 
-		// bool t =  (a1 == a2);
-		// std::cout << a1 << " - " << a2 << " = " << t << std::endl;
+        // bool t =  (a1 == a2);
+        // std::cout << a1 << " - " << a2 << " = " << t << std::endl;
     
     glEnd();
     
@@ -109,6 +89,37 @@ void drawScene() {
     
     glutSwapBuffers();
 }
+
+
+void handleKeypress(unsigned char key, int x, int y) {
+    switch (key) {
+        case 27: //Escape key
+            exit(0);
+        case ' ':
+            RenderMode++;
+            if(RenderMode > 2) {RenderMode = 0;}
+            // std::cout << RenderMode << std::endl;
+            drawScene();
+        // default:
+            // std::cout << key << std::endl;
+    }
+}
+
+
+void initRendering() {
+    glEnable(GL_DEPTH_TEST);
+    glEnable(GL_COLOR_MATERIAL); 
+}
+
+void handleResize(int w, int h) {
+    glViewport(0, 0, w, h);
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    gluPerspective(45.0, (double)w / (double)h, 1.0, 200.0);
+}
+
+float _angle = 60.0f;
+float _cameraAngle = 30.0f;
 
 void update(int value) {
     _angle += 2.0f;
