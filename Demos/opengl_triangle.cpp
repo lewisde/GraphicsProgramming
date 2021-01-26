@@ -1,6 +1,7 @@
 #include <iostream>
 #include <stdlib.h>
 #include <math.h>
+#include <ctime>
 
 #ifdef __APPLE__
 #include <OpenGL/OpenGL.h>
@@ -9,12 +10,16 @@
 #include <GL/glut.h>
 #endif
 
+#define PI 3.14159265
+
 using namespace std;
 
 void handleKeypress(unsigned char key, int x, int y) {
     switch (key) {
         case 27: //Escape key
             exit(0);
+        default:
+            std::cout << key << std::endl;
     }
 }
 
@@ -31,8 +36,8 @@ void handleResize(int w, int h) {
     gluPerspective(45.0, (double)w / (double)h, 1.0, 200.0);
 }
 
-float _angle = 30.0f;
-float _cameraAngle = 0.0f;
+float _angle = 60.0f;
+float _cameraAngle = 30.0f;
 
 //Draws the 3D scene
 void drawScene() {
@@ -43,43 +48,63 @@ void drawScene() {
     glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
     // glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
     glTranslatef(0.0f, 0.0f, -8.0f);
-    glScalef(3.0, 3.0, 0.0);
+    glScalef(2.0, 2.0, 0.0);
 
     glPushMatrix();
     
     glBegin(GL_TRIANGLES);
 
+	    // std::clock_t start;
+	    // double duration;
 
-        float width = 1.0f;
-        float height = sqrt(width*width - (0.5 * width)*(0.5 * width));
-        
+	    // start = std::clock();
+
+	    /* Your algorithm here */
+	    float a1 = sqrt(1 - 0.25);
+
+	    // duration = ( std::clock() - start ) / (double) CLOCKS_PER_SEC;
+
+	    // std::cout<<"time for sqrt "<< duration <<'\n';
+
+    	
+	    // start = std::clock();
+
+	    /* Your algorithm here */
+    	float a2 = sin(60*(PI/180.0));
+
+	    // duration = ( std::clock() - start ) / (double) CLOCKS_PER_SEC;
+
+	    // std::cout<<"time for sin "<< duration <<'\n';
+
+
         glColor3f(0.0f, 0.0f, 1.0f); //blue
-        glVertex3f(-2.0f, 0.0f, 0.0f); //bottom left
+        glVertex3f(-1.25f, 0.0f, 0.0f); //bottom left
         glColor3f(0.0f, 1.0f, 0.0f); //green
-        glVertex3f(-1.0f, 0.0f, 0.0f); //bottom right
+        glVertex3f(-0.25f, 0.0f, 0.0f); //bottom right
         glColor3f(1.0f, 0.0f, 0.0f); //red
-        glVertex3f(-1.5f, height, 0.0f); //top
+        glVertex3f(-0.75f, a1, 0.0f); //top
         
         //Triangle
         glColor3f(0.0f, 0.0f, 1.0f); //blue
-        glVertex3f(-0.9f, 0.0f, 0.0f); //bottom left
+        glVertex3f(0.25f, 0.0f, 0.0f); //bottom left
         glColor3f(0.0f, 1.0f, 0.0f); //green
-        glVertex3f(0.1f, 0.0f, 0.0f); //bottom right
+        glVertex3f(1.25f, 0.0f, 0.0f); //bottom right
         glColor3f(1.0f, 0.0f, 0.0f); //red
-        glVertex3f(-0.4f, -cos(60), 0.0f); //top
+        glVertex3f(0.75f, a2, 0.0f); //top
         // glVertex3f(1.0f, 1.0f, 0.0f);
 
         glColor3f(0.0f, 0.0f, 1.0f); //blue
-        glVertex3f(0.2f, 0.0f, 0.0f); //bottom left
+        glVertex3f(-0.5f, 0.0f, 0.0f); //bottom left
         glColor3f(0.0f, 1.0f, 0.0f); //green
-        glVertex3f(1.2f, 0.0f, 0.0f); //bottom right
+        glVertex3f(0.5f, 0.0f, 0.0f); //bottom right
         glColor3f(1.0f, 0.0f, 0.0f); //red
-        glVertex3f(0.7f, 1.0, 0.0f); //top
+        glVertex3f(0.0f, 1.0, 0.0f); //top
 
+		// bool t =  (a1 == a2);
+		// std::cout << a1 << " - " << a2 << " = " << t << std::endl;
     
     glEnd();
     
-
     glPopMatrix();
     
     glutSwapBuffers();
@@ -99,10 +124,10 @@ int main(int argc, char** argv) {
     //Initialize GLUT
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
-    glutInitWindowSize(800, 600);
+    glutInitWindowSize(640, 480);
     
     //Create the window
-    glutCreateWindow("Color Triangle");
+    glutCreateWindow("OpenGL Triangle");
     initRendering();
     
     //Set handler functions
